@@ -1,5 +1,4 @@
-﻿
-using TSP_DMM;
+﻿using TSP_DMM;
 
 class Program
 {
@@ -51,16 +50,14 @@ class Program
             Console.WriteLine(); 
         }
     }
-
     static void Main(string[] args)
     {
-
-        int n = 100;
-        double fully = 1.0;
+        int n = 100;  
+        double fully = 1.0; 
         var graph = GraphGenerator.GenerateRandomGraph(n, fully, useMatrix: true);
-
+        
         Console.WriteLine($"Кількість вершин: {graph.VerticesCount}");
-
+       
         if (graph is AdjacencyMatrix)
         {
             Console.WriteLine($"Кількість ребер: {(graph as AdjacencyMatrix).EdgesCount()}");
@@ -69,8 +66,12 @@ class Program
         {
             Console.WriteLine($"Кількість ребер: {(graph as AdjacencyList).EdgesCount()}");
         }
-
+        
         PrintAdjacencyMatrix(graph);
+        var (cost, path) = TSPSolve.Solve(graph);
+        Console.WriteLine("Жадібний алгоритм (найближчий сусід):");
+        Console.WriteLine(string.Join(" -> ", path));
+        Console.WriteLine($"Загальна довжина шляху: {cost:F2}");
     }
 
 }
