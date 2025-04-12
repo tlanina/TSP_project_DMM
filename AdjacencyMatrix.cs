@@ -1,5 +1,3 @@
-namespace TSP_DMM;
-
 public class AdjacencyMatrix : Graph
 {
     private double?[,] matrix;
@@ -9,8 +7,8 @@ public class AdjacencyMatrix : Graph
         VerticesCount = n;
         matrix = new double?[n, n];
     }
-    
-    public AdjacencyMatrix(int n, Dictionary<(int, int), int> edgeWeights) : this(n)
+
+    public AdjacencyMatrix(int n, Dictionary<(int, int), double> edgeWeights) : this(n)
     {
         foreach (var ((u, v), weight) in edgeWeights)
         {
@@ -29,9 +27,9 @@ public class AdjacencyMatrix : Graph
         return matrix[u, v].HasValue;
     }
 
-    public override int GetWeight(int u, int v)
+    public override double GetWeight(int u, int v)
     {
-        return (int)(matrix[u, v] ?? double.PositiveInfinity);
+        return matrix[u, v] ?? double.PositiveInfinity;
     }
 
     public override List<(int, double)> GetNeighbors(int u)
@@ -43,21 +41,5 @@ public class AdjacencyMatrix : Graph
                 neighbors.Add((v, matrix[u, v].Value));
         }
         return neighbors;
-    }
-
-    public int EdgesCount()
-    {
-        int count = 0;
-        for (int i = 0; i < VerticesCount; i++)
-        {
-            for (int j = i + 1; j < VerticesCount; j++)
-            {
-                if (matrix[i, j].HasValue)
-                {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 }

@@ -1,45 +1,36 @@
-namespace TSP_DMM;
-
-using System;
-using System.Collections.Generic;
-
-public class TSPSolve
+public static class TSPSolve
 {
-    public static (double cost, List<int> path) Solve(Graph graph, int start = 0)
+    public static (double cost, List<int> path) Solve(Graph graph)
     {
         int n = graph.VerticesCount;
-        bool[] visited = new bool[n];
-        List<int> path = new List<int>();
+        var visited = new bool[n];
+        var path = new List<int>();
         double totalCost = 0;
 
-        int current = start;
-        visited[current] = true;
+        int current = 0;
         path.Add(current);
+        visited[current] = true;
 
         for (int step = 1; step < n; step++)
         {
-            double minDistance = double.PositiveInfinity;
-            int next = -1;
+            var neighbors = graph.GetNeighbors(current).Where(neigh => !visited[neigh.Item1]).OrderBy(neigh => neigh.Item2).ThenBy(neigh => neigh.Item1).ToList();
 
-            foreach (var (neighbor, weight) in graph.GetNeighbors(current))
-            {
-                if (!visited[neighbor] && weight < minDistance)
-                {
-                    minDistance = weight;
-                    next = neighbor;
-                }
-            }
-
-            if (next == -1)
+            if (neighbors.Count == 0)
                 break;
 
-            visited[next] = true;
+            var (next, weight) = neighbors.First();
             path.Add(next);
-            totalCost += minDistance;
+            visited[next] = true;
+            totalCost += weight;
             current = next;
         }
-        totalCost += graph.GetWeight(current, start);
-        path.Add(start);
+        
+        double returnWeight = graph.GetWeight(current, path[0]);
+        if (returnWeight != double.PositiveInfinity && returnWeight != int.MaxValue)
+        {
+            path.Add(path[0]);
+            totalCost += returnWeight;
+        }
 
         return (totalCost, path);
     }

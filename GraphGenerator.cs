@@ -2,12 +2,12 @@ public static class GraphGenerator
 {
     private static Random random = new Random();
 
-    public static Dictionary<(int, int), int> GenerateEdgeWeights(int n, double density)
+    public static Dictionary<(int, int), double> GenerateEdgeWeights(int n, double density)
     {
         int maxEdges = n * (n - 1) / 2;
         int targetEdges = (int)(maxEdges * density);
-        var edgeWeights = new Dictionary<(int, int), int>();
-        
+        var edgeWeights = new Dictionary<(int, int), double>();
+            
         while (edgeWeights.Count < targetEdges)
         {
             int u = random.Next(n);
