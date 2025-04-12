@@ -6,7 +6,7 @@ class Program
     {
         int n = graph.VerticesCount;
         Console.OutputEncoding = System.Text.Encoding.UTF8;
-        Console.WriteLine("Матриця суміжності:");
+        Console.WriteLine("[Матриця суміжності]");
 
         for (int startCol = 0; startCol < n; startCol += chunkSize)
         {
@@ -52,26 +52,27 @@ class Program
     }
     static void Main(string[] args)
     {
-        int n = 100;  
-        double fully = 1.0; 
-        var graph = GraphGenerator.GenerateRandomGraph(n, fully, useMatrix: true);
-        
-        Console.WriteLine($"Кількість вершин: {graph.VerticesCount}");
+        int n = 40;
+        double fully =1;
+
+        var edgeWeights = GraphGenerator.GenerateEdgeWeights(n, fully);
+
+        var matrixGraph = new AdjacencyMatrix(n, edgeWeights);
+        var listGraph = new AdjacencyList(n, edgeWeights);
+
+        Console.WriteLine($"Кількість вершин: {n}");
+        Console.WriteLine($"Кількість ребер: {edgeWeights.Count}");
+
        
-        if (graph is AdjacencyMatrix)
-        {
-            Console.WriteLine($"Кількість ребер: {(graph as AdjacencyMatrix).EdgesCount()}");
-        }
-        else if (graph is AdjacencyList)
-        {
-            Console.WriteLine($"Кількість ребер: {(graph as AdjacencyList).EdgesCount()}");
-        }
+        PrintAdjacencyMatrix(matrixGraph);
         
-        PrintAdjacencyMatrix(graph);
-        var (cost, path) = TSPSolve.Solve(graph);
-        Console.WriteLine("Жадібний алгоритм (найближчий сусід):");
+        listGraph.PrintAdjacencyList();
+
+        var (cost, path) = TSPSolve.Solve(matrixGraph);
+        Console.WriteLine("\nЖадібний алгоритм (найближчий сусід):");
         Console.WriteLine(string.Join(" -> ", path));
         Console.WriteLine($"Загальна довжина шляху: {cost:F2}");
     }
+
 
 }

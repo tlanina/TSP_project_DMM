@@ -9,6 +9,14 @@ public class AdjacencyMatrix : Graph
         VerticesCount = n;
         matrix = new double?[n, n];
     }
+    
+    public AdjacencyMatrix(int n, Dictionary<(int, int), int> edgeWeights) : this(n)
+    {
+        foreach (var ((u, v), weight) in edgeWeights)
+        {
+            AddEdge(u, v, weight);
+        }
+    }
 
     public override void AddEdge(int u, int v, double weight)
     {
@@ -44,7 +52,7 @@ public class AdjacencyMatrix : Graph
         {
             for (int j = i + 1; j < VerticesCount; j++)
             {
-                if (matrix[i, j].HasValue) 
+                if (matrix[i, j].HasValue)
                 {
                     count++;
                 }

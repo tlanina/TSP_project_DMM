@@ -11,6 +11,14 @@ public class AdjacencyList : Graph
         for (int i = 0; i < n; i++)
             adjList[i] = new List<(int, double)>();
     }
+    
+    public AdjacencyList(int n, Dictionary<(int, int), int> edgeWeights) : this(n)
+    {
+        foreach (var ((u, v), weight) in edgeWeights)
+        {
+            AddEdge(u, v, weight);
+        }
+    }
 
     public override void AddEdge(int u, int v, double weight)
     {
@@ -46,5 +54,22 @@ public class AdjacencyList : Graph
             }
         }
         return count;
+    }
+    public void PrintAdjacencyList()
+    {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+        Console.WriteLine("[Список суміжності]");
+        for (int i = 0; i < VerticesCount; i++)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"{i,3}: ");
+            Console.ResetColor();
+
+            foreach (var (neighbor, weight) in adjList[i])
+            {
+                Console.Write($"({neighbor}, {weight}) ");
+            }
+            Console.WriteLine();
+        }
     }
 }
