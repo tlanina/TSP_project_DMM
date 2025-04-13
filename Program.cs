@@ -91,8 +91,8 @@ class Program
     static void Main(string[] args)
     {
         int n = 20;
-        double density = 1.0;
-        int experimentsCount = 20;
+        double density = 0.8;
+        int experimentsCount = 100;
 
         double totalTimeMatrix = 0;
         double totalTimeList = 0;
@@ -100,7 +100,7 @@ class Program
         double totalCostList = 0;
 
         Console.WriteLine($"[Експерименти для графа з {n} вершинами та щільністю {density}]");
-        Console.WriteLine($"Виконується {experimentsCount} запусків для кожної структури...\n");
+        Console.WriteLine($"Виконується {experimentsCount} запусків для кожної структури\n");
 
         Console.WriteLine($"Кількість вершин: {n}");
         

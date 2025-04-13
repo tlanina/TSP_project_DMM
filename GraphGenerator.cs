@@ -5,10 +5,10 @@ public static class GraphGenerator
     public static Dictionary<(int, int), double> GenerateEdgeWeights(int n, double density)
     {
         int maxEdges = n * (n - 1) / 2;
-        int targetEdges = (int)(maxEdges * density);
+        int edgesNeeded = (int)(maxEdges * density);
         var edgeWeights = new Dictionary<(int, int), double>();
             
-        while (edgeWeights.Count < targetEdges)
+        while (edgeWeights.Count < edgesNeeded)
         {
             int u = random.Next(n);
             int v = random.Next(n);
